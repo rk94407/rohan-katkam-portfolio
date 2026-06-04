@@ -105,25 +105,54 @@ Navigation from the mobile menu uses `scrollIntoView({ behavior: "smooth" })` ca
 - `uploads/` holds original dropped files — not served directly; encoded copies live in `.image-slots.state.json`.
 - To programmatically set the portrait: base64-encode the image file and write `{ portrait: { u: "data:image/png;base64,...", s: 1, x: 0, y: 0 } }` to `.image-slots.state.json`.
 
+## Hero Layout
+
+The hero uses a **3-column grid** on desktop: `[lead text] [portrait] [socials]`.
+
+```
+components/hero.jsx structure:
+  <h1 class="hero__name">   ← full-width ROHAN / KATKAM
+  <div class="hero__row">   ← 3-col grid on desktop
+    .hero__lead             ← col 1: title, blurb, CTA button
+    .hero__portrait         ← col 2 (center): image-slot
+    .hero__socials          ← col 3: LinkedIn/GitHub/Portfolio pills
+```
+
+**Portrait image:** stored in `.image-slots.state.json` as `{ portrait: { u: "data:image/jpeg;base64,...", s: 1.15, x: 0, y: -12 } }`. Current image: `uploads/IMG_0426.JPG`. `s` = scale, `x`/`y` = pan offset (% from center). To change: base64-encode new image and update the `u` key.
+
+**Portrait styling:** `border-radius: 24px` (rounded rectangle). On desktop: `width: clamp(280px, 32vw, 460px)`, `height: clamp(360px, 42vw, 580px)`. The `.hero__row` has `margin-top: clamp(-40px, -5vw, -70px)` to slightly overlap with KATKAM.
+
 ## Responsive Layout
 
 Breakpoints used across component CSS files:
 
 | Width | Behaviour |
 |---|---|
-| >900px | Desktop: hero uses 2-col grid (lead left, socials right), experience shows full 5-col row |
-| ≤900px | iPad: hero collapses to single centered column; experience hides date column |
+| >900px | Desktop: hero 3-col grid (lead \| portrait \| socials), experience shows full 5-col row |
+| ≤900px | iPad: hero collapses to single column — portrait first (order:-1), then lead, then socials centered |
 | ≤760px | Mobile: nav links hidden, hamburger shown; `nav__cta` ("Let's Talk") hidden |
 | ≤720px | Skills and projects grids collapse to 1 column |
-| ≤600px | Contact form row collapses to 1 column; hero portrait shrinks |
+| ≤600px | Contact form row collapses to 1 column; hero portrait shrinks to 58vw |
 
 **Horizontal overflow:** `html` and `.section` both have `overflow-x: hidden`. The `.watermark` and `.marquee__track` intentionally exceed viewport width — they are clipped by their parents, not the page. Do not remove these overflow rules or the navbar will shift right on mobile during scroll.
 
-**Hero z-index layers:** name (`z-index: 1`) → stage/portrait (`z-index: 4`) → hero__row lead+socials (`z-index: 4`). The portrait sits in front of the name text by design.
-
-**Hero portrait overlap:** `.hero__stage` uses `margin-top: clamp(-80px, -14vw, -210px)` to pull the portrait up over the name. Increase the magnitude for more overlap, decrease for less. On ≤900px the overlap is removed and the portrait stacks below the name.
+**Hero z-index layers:** name (`z-index: 1`) → portrait (`z-index: 4`) → hero__row (`z-index: 4`). The portrait sits in front of the name text by design.
 
 **Social pills:** `.hero__socials .pill` has a fixed `width: 120px` and `justify-content: center` so all three pills (LinkedIn, GitHub, Portfolio) are equal width with centered icon + label.
+
+## Deployment
+
+- **GitHub:** https://github.com/rk94407/rohan-katkam-portfolio
+- **Vercel:** `vercel.json` routes `/` → `Portfolio.html` and `/api/contact` → `api/contact.js` (serverless function). Set env vars `RESEND_API_KEY`, `EMAIL_ADDRESS`, `EMAIL_FROM` in Vercel dashboard before deploying.
+- **Local server only** (`serve.mjs`) — the serverless function at `api/contact.js` is Vercel-only; `serve.mjs` handles `/api/contact` locally.
+
+## .gitignore — What's excluded
+
+- `.env.local` — API keys
+- `.image-slots.state.json` — base64 portrait (~1.2 MB), regenerated from `uploads/`
+- `uploads/` — all original photo files (large binaries)
+- `sections.jsx` + `styles.css` — legacy monolithic originals, not loaded
+- `.DS_Store`, `node_modules/`, editor folders
 
 **Background removal:** `rembg` + `onnxruntime` are installed at `~/Library/Python/3.9`. To re-process the portrait: run rembg with the `isnet-general-use` session, composite the transparent result onto `#eceae5` (light bg) using PIL, then base64-encode and write to `.image-slots.state.json`.
 
