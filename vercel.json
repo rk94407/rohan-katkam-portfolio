@@ -1,6 +1,4 @@
 {
-  "routes": [
-    { "src": "/api/contact", "dest": "/api/contact" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
