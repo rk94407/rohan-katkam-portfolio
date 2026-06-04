@@ -100,10 +100,12 @@ Navigation from the mobile menu uses `scrollIntoView({ behavior: "smooth" })` ca
 ## Content & Images
 
 - All copy lives in `data.js` (`window.DATA`) — edit only there.
+- To hide a project or social link, comment it out in `data.js` then `git add data.js && git push` — Vercel auto-deploys.
 - Project screenshots go in `public/` and are referenced via the `img` field on each project in `data.js`. Projects with `img: ""` render a CSS diagonal-stripe placeholder.
-- Portrait image is persisted in `.image-slots.state.json` as `{ portrait: { u: "data:image/...", s: 1, x: 0, y: 0 } }`. The `u` key is the data URL — **not** `src`. The footer avatar uses `public/favicon.ico` via `src=` attribute on the image-slot.
-- `uploads/` holds original dropped files — not served directly; encoded copies live in `.image-slots.state.json`.
-- To programmatically set the portrait: base64-encode the image file and write `{ portrait: { u: "data:image/png;base64,...", s: 1, x: 0, y: 0 } }` to `.image-slots.state.json`.
+- Portrait image: `public/portrait.jpg` (committed to git, ships to Vercel). Source file: `uploads/IMG_0426.JPG`. To swap: copy new image to `public/portrait.jpg` and push.
+- The `<img>` in `hero.jsx` uses `objectPosition: "center 20%"` to crop to the face/upper body area.
+- `uploads/` holds original dropped files — gitignored, local only.
+- `.image-slots.state.json` is gitignored — only used locally for the drag-to-reposition feature on localhost.
 
 ## Hero Layout
 
@@ -114,11 +116,9 @@ components/hero.jsx structure:
   <h1 class="hero__name">   ← full-width ROHAN / KATKAM
   <div class="hero__row">   ← 3-col grid on desktop
     .hero__lead             ← col 1: title, blurb, CTA button
-    .hero__portrait         ← col 2 (center): image-slot
-    .hero__socials          ← col 3: LinkedIn/GitHub/Portfolio pills
+    .hero__portrait         ← col 2 (center): <img src="public/portrait.jpg">
+    .hero__socials          ← col 3: LinkedIn/GitHub pills
 ```
-
-**Portrait image:** stored in `.image-slots.state.json` as `{ portrait: { u: "data:image/jpeg;base64,...", s: 1.15, x: 0, y: -12 } }`. Current image: `uploads/IMG_0426.JPG`. `s` = scale, `x`/`y` = pan offset (% from center). To change: base64-encode new image and update the `u` key.
 
 **Portrait styling:** `border-radius: 24px` (rounded rectangle). On desktop: `width: clamp(280px, 32vw, 460px)`, `height: clamp(360px, 42vw, 580px)`. The `.hero__row` has `margin-top: clamp(-40px, -5vw, -70px)` to slightly overlap with KATKAM.
 
@@ -143,8 +143,11 @@ Breakpoints used across component CSS files:
 ## Deployment
 
 - **GitHub:** https://github.com/rk94407/rohan-katkam-portfolio
-- **Vercel:** `vercel.json` routes `/` → `Portfolio.html` and `/api/contact` → `api/contact.js` (serverless function). Set env vars `RESEND_API_KEY`, `EMAIL_ADDRESS`, `EMAIL_FROM` in Vercel dashboard before deploying.
-- **Local server only** (`serve.mjs`) — the serverless function at `api/contact.js` is Vercel-only; `serve.mjs` handles `/api/contact` locally.
+- **Vercel:** https://rohan-katkam-portfolio-app.vercel.app (project: `rohan-katkam-portfolio-app`, team: `rk94407s-projects`)
+- Auto-deploys on every `git push` to `main`.
+- `vercel.json` has `outputDirectory: "."` so Vercel serves files from the project root. `api/contact.js` is the serverless contact form handler.
+- Required env vars in Vercel dashboard: `RESEND_API_KEY`, `EMAIL_ADDRESS`, `EMAIL_FROM`.
+- **Local server** (`serve.mjs`) handles `/api/contact` locally; `index.html` served at `/`.
 
 ## .gitignore — What's excluded
 
