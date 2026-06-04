@@ -1,0 +1,49 @@
+/* ============================================================
+   SKILLS
+   ============================================================ */
+.skills__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.skills__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  margin-top: clamp(34px, 5vw, 56px);
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+html[data-direction="swiss"] .skills__grid { grid-template-columns: repeat(3, 1fr); }
+
+.skillcard {
+  background: var(--surface);
+  padding: clamp(22px, 2.6vw, 34px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: background 0.4s var(--ease);
+}
+.skillcard:hover { background: var(--surface-2); }
+
+.skillcard__top  { display: flex; align-items: center; gap: 12px; }
+.skillcard__idx  { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+.skillcard h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.skillcard__tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.skillcard:hover .tag { border-color: var(--line-strong); color: var(--ink); }
+
+@media (max-width: 720px) { .skills__grid { grid-template-columns: 1fr; } }

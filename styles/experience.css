@@ -1,0 +1,115 @@
+/* ============================================================
+   EXPERIENCE (inverted dark block)
+   ============================================================ */
+.experience {
+  background: var(--invert-bg);
+  color: var(--invert-ink);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s var(--ease), color 0.5s var(--ease);
+}
+.experience .watermark { color: rgba(255,255,255,0.045); }
+html[data-theme="dark"] .experience .watermark { color: rgba(0,0,0,0.22); }
+.experience .shead .slash { color: var(--invert-soft); }
+
+.exp__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.exp__head .eyebrow { color: var(--invert-soft); }
+
+.exp__list {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(34px, 5vw, 56px);
+  border-top: 1px solid var(--invert-line);
+}
+
+.exprow {
+  border-bottom: 1px solid var(--invert-line);
+  cursor: pointer;
+}
+.exprow__main {
+  display: grid;
+  grid-template-columns: 28px 1.5fr 1fr auto 36px;
+  align-items: center;
+  gap: 20px;
+  padding: clamp(20px, 2.4vw, 30px) 0;
+}
+.exprow__idx  { font-family: var(--font-mono); font-size: 12px; color: var(--invert-soft); }
+.exprow__co {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: clamp(19px, 2.4vw, 30px);
+  transition: transform 0.4s var(--ease);
+}
+.exprow__role { color: var(--invert-soft); font-size: 14px; font-family: var(--font-mono); }
+.exprow__date {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--invert-soft);
+  text-align: right;
+  white-space: nowrap;
+}
+.exprow__plus {
+  justify-self: end;
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border: 1px solid var(--invert-line);
+  border-radius: 50%;
+  transition: transform 0.5s var(--ease), background 0.4s var(--ease);
+  font-size: 15px;
+}
+html[data-direction="brutalist"] .exprow__plus { border-radius: 0; }
+
+.exprow:hover .exprow__co   { transform: translateX(8px); }
+.exprow:hover .exprow__plus { background: var(--invert-ink); color: var(--invert-bg); }
+
+/* open state — driven by data-open attribute so React className changes
+   don't clobber the IntersectionObserver-managed .in class */
+.exprow[data-open] .exprow__plus    { transform: rotate(135deg); }
+.exprow[data-open] .exprow__detail  { grid-template-rows: 1fr; }
+
+.exprow__detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s var(--ease);
+}
+.exprow__detail > div { overflow: hidden; }
+
+.exprow__bullets {
+  padding: 0 0 26px 48px;
+  max-width: 760px;
+  display: grid;
+  gap: 12px;
+}
+.exprow__bullets li {
+  list-style: none;
+  position: relative;
+  padding-left: 20px;
+  color: var(--invert-soft);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+.exprow__bullets li::before { content: "—"; position: absolute; left: 0; color: var(--invert-ink); }
+
+/* iPad: hide date, keep plus button */
+@media (max-width: 900px) and (min-width: 721px) {
+  .exprow__main { grid-template-columns: 28px 1.5fr 1fr 36px; }
+  .exprow__date { display: none; }
+}
+
+@media (max-width: 720px) {
+  .exprow__main { grid-template-columns: 20px 1fr; row-gap: 4px; }
+  .exprow__role { grid-column: 2; }
+  .exprow__date { grid-column: 2; text-align: left; }
+  .exprow__plus { display: none; }
+  .exprow__bullets { padding-left: 20px; }
+}
