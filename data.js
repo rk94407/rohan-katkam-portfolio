@@ -87,15 +87,15 @@ window.DATA = {
       img: "public/bio187.png",
       live: false,
     },
-    {
-      title: "Portfolio Website",
-      badge: "Full Stack",
-      desc: "Full-stack portfolio with REST integrations (Resend API), server-side rendering and automated CI/CD pipelines delivering zero-downtime deployments on Vercel.",
-      tags: ["Next.js", "Node.js", "REST APIs", "Vercel", "CI/CD"],
-      url: "https://rohan-katkam-portfolio.vercel.app/",
-      img: "",
-      live: true,
-    },
+    // {
+    //   title: "Portfolio Website",
+    //   badge: "Full Stack",
+    //   desc: "Full-stack portfolio with REST integrations (Resend API), server-side rendering and automated CI/CD pipelines delivering zero-downtime deployments on Vercel.",
+    //   tags: ["Next.js", "Node.js", "REST APIs", "Vercel", "CI/CD"],
+    //   url: "https://rohan-katkam-portfolio.vercel.app/",
+    //   img: "",
+    //   live: true,
+    // },
     {
       title: "Movie Hub App",
       badge: "Frontend",
@@ -131,7 +131,7 @@ window.DATA = {
     links: [
       { label: "LinkedIn", url: "https://www.linkedin.com/in/rohan-katkam-b3b1851b8/" },
       { label: "GitHub", url: "https://github.com/rk94407" },
-      { label: "Portfolio", url: "https://rohan-katkam-portfolio.vercel.app/" },
+      // { label: "Portfolio", url: "https://rohan-katkam-portfolio.vercel.app/" },
     ],
   },
 };
