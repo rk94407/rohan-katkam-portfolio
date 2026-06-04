@@ -20,7 +20,7 @@ function Hero() {
             </a>
           </div>
           <div className="hero__portrait reveal">
-            <image-slot id="portrait" shape="rect" placeholder="Drop your portrait (JPG/PNG)"></image-slot>
+            <img src="public/portrait.jpg" alt="Rohan Katkam" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%", display: "block" }} />
           </div>
           <div className="hero__socials reveal" data-d="2">
             {D.contact.links.map((l) => (
