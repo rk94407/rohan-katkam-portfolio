@@ -11,12 +11,6 @@ function Hero() {
           <span className="w fill">{D.name[1]}</span>
         </h1>
 
-        <div className="hero__stage">
-          <div className="hero__portrait reveal">
-            <image-slot id="portrait" shape="rect" placeholder="Drop your portrait (JPG/PNG)"></image-slot>
-          </div>
-        </div>
-
         <div className="hero__row">
           <div className="hero__lead reveal">
             <h2>{D.roles[0]} <span style={{ color: "var(--ink-faint)" }}>&amp;</span> {D.roles[1]}</h2>
@@ -24,6 +18,9 @@ function Hero() {
             <a className="pill pill--solid" data-magnetic href="#contact">
               Let's collaborate {Icon.arrow({ className: "arrow" })}
             </a>
+          </div>
+          <div className="hero__portrait reveal">
+            <image-slot id="portrait" shape="rect" placeholder="Drop your portrait (JPG/PNG)"></image-slot>
           </div>
           <div className="hero__socials reveal" data-d="2">
             {D.contact.links.map((l) => (
